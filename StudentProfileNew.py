@@ -22,7 +22,7 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class Ui_MainWindow(object):
+class STUDENT(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(250, 420)
@@ -68,17 +68,14 @@ class Ui_MainWindow(object):
         self.lineEdit = QtGui.QLineEdit(self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(20, 350, 210, 20))
         self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
-        self.pushButton_2 = QtGui.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(155, 380, 75, 20))
-        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        self.send = QtGui.QPushButton(self.centralwidget)
+        self.send.setGeometry(QtCore.QRect(155, 380, 75, 20))
+        self.send.setObjectName(_fromUtf8("pushButton_2"))
         MainWindow.setCentralWidget(self.centralwidget)
-        self.pushButton_3 = QtGui.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(20, 380, 30, 20))
-        self.pushButton_3.setObjectName(_fromUtf8("pushButton_2"))
+        self.back = QtGui.QPushButton(self.centralwidget)
+        self.back.setGeometry(QtCore.QRect(20, 380, 70, 20))
+        self.back.setObjectName(_fromUtf8("pushButton_2"))
         MainWindow.setCentralWidget(self.centralwidget)
-        self.pushButton_4 = QtGui.QPushButton(self.centralwidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(50, 380, 30, 20))
-        self.pushButton_4.setObjectName(_fromUtf8("pushButton_2"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 294, 21))
@@ -109,9 +106,8 @@ class Ui_MainWindow(object):
         self.label_3.setText(_translate("MainWindow", "จำนวนการคำถาม:  ", None))
         self.label_4.setText(_translate("MainWindow", "จำนวนการคลิก:  ", None))
         self.label_5.setText(_translate("MainWindow", "คำถามทั้งหมด", None))
-        self.pushButton_2.setText(_translate("MainWindow", "Send", None))
-        self.pushButton_3.setText(_translate("MainWindow", "<<", None))
-        self.pushButton_4.setText(_translate("MainWindow", ">>", None))
+        self.send.setText(_translate("MainWindow", "SEND", None))
+        self.back.setText(_translate("MainWindow", "BACK", None))
         self.lineEdit.setText(_translate("MainWindow", "58340500001", None))
 
 
@@ -119,7 +115,7 @@ if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
     MainWindow = QtGui.QMainWindow()
-    ui = Ui_MainWindow()
+    ui = STUDENT()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())

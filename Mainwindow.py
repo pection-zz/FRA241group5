@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
+# from Detail import DETAIL
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -22,7 +23,15 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class Ui_RealTimeSystem(object):
+class MAINWINDOW(object):
+
+    ques_table = 0
+    classID = 241001
+    stuID = 58340500051
+    click_table = 0
+    lastdatetime = ''
+    seen = []
+
     def setupUi(self, RealTimeSystem):
         RealTimeSystem.setObjectName(_fromUtf8("RealTimeSystem"))
         RealTimeSystem.setEnabled(True)
@@ -104,11 +113,12 @@ class Ui_RealTimeSystem(object):
         self.Upload.setText(_translate("RealTimeSystem", "UPLOAD", None))
 
 
+
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
     RealTimeSystem = QtGui.QMainWindow()
-    ui = Ui_RealTimeSystem()
+    ui = MAINWINDOW()
     ui.setupUi(RealTimeSystem)
     RealTimeSystem.show()
     sys.exit(app.exec_())
