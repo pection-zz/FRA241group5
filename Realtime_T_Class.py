@@ -8,7 +8,10 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
-
+import matplotlib
+import matplotlib.pyplot as plt
+import matplotlib.pyplot
+import random
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -29,14 +32,17 @@ class Classprofile(object):
     def setupUi(self, MainWindow,subj):
         self.sub = "FRA"+str(subj)
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.setFixedSize(280, 430)
+        MainWindow.setFixedSize(280, 650)
+        #MainWindow.setFixedSize(280, 430)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.bg = QtGui.QLabel(self.centralwidget)
         self.bg.setGeometry(QtCore.QRect(0, 0, 280, 430))
         self.bg.setText(_fromUtf8(""))
-        self.bg.setPixmap(QtGui.QPixmap(_fromUtf8("teacherBackground_5")))
+        self.bg.setPixmap(QtGui.QPixmap(_fromUtf8("teacherBackground_6")))
         self.bg.setObjectName(_fromUtf8("bg"))
+        # this is the Canvas Widget that displays the `figure`
+        # it takes the `figure` instance as a parameter to __init__
         self.ok = QtGui.QPushButton(self.centralwidget)
         self.ok.setGeometry(QtCore.QRect(200, 370, 50, 20))
         self.ok.setObjectName(_fromUtf8("ok"))
@@ -44,6 +50,12 @@ class Classprofile(object):
         self.timeEdit.setGeometry(QtCore.QRect(180, 75, 70, 20))
         self.timeEdit.setLocale(QtCore.QLocale(QtCore.QLocale.Tagalog, QtCore.QLocale.Philippines))
         self.timeEdit.setObjectName(_fromUtf8("timeEdit"))
+        self.graph = QtGui.QLabel(self.centralwidget)
+
+        self.graph.setGeometry(QtCore.QRect(15, 420, 250, 200))
+        #self.graph.setStyleSheet("color:black;font-size: 9pt;border: white")
+        self.graph.setPixmap(QtGui.QPixmap(_fromUtf8("graph.png")))
+        self.graph.setObjectName(_fromUtf8("graph"))
         self.label_3 = QtGui.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(220-50, 120, 121, 20))
         self.label_3.setObjectName(_fromUtf8("label_3"))
@@ -96,6 +108,7 @@ class Classprofile(object):
         #self..setStyleSheet("background-color: green;color: white;font-size: 9pt;border: white")
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.plot()
 
 
     def retranslateUi(self, MainWindow):
@@ -111,6 +124,25 @@ class Classprofile(object):
         self.dateEdit.setDate(QtCore.QDate(2016,12,1))
         self.timeEdit.setTime(QtCore.QTime(8,00,00))
 
+    def plot(self):
+        font = {'family' : 'normal',
+        'size'   : 5}
+
+        matplotlib.rc('font', **font)
+
+        figg = matplotlib.pyplot.figure(figsize=(2.50,2.00))
+        y = []
+        x= []
+        for i in range(0,20):
+            x.append(i)
+            y.append(random.randrange(0,100))
+        figg.add_subplot(111).plot(x,y,'g--')
+        figg.savefig("graph.png", facecolor='lightgreen', transparent=True,edgecolor='green')
+        self.graph.setPixmap(QtGui.QPixmap(_fromUtf8("graph.png")))
+
+        #plt.plot([1,2,3,4,5],[3,4,8,2,1],'r--')
+        #plt.savefig("graph.png",figg)
+        #plt.show()
 
 if __name__ == "__main__":
     import sys
