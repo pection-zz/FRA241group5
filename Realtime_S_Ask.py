@@ -10,7 +10,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtGui import QDialog
 from PyQt4.QtCore import SIGNAL
 import time
-from Server import Databaze
+from Realtime_Server import Databaze
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8

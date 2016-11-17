@@ -5,7 +5,7 @@ import sys
 from Realtime_S_Question import Ui_MainWindowVote
 from Realtime_S_Ask import Ui_MainWindowQuestion
 import time
-from Server import Databaze
+from Realtime_Server import Databaze
 import signal
 a=0
 class HumanoidMainWindow(QtGui.QMainWindow,Ui_Form):
