@@ -21,8 +21,15 @@ try:
 except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
-
+a="kwai"
+b="kwaieiei"
+c="kwaimak"
+d="Kwaimakamk"
 class Ui_MainWindowVote(object):
+    Question1_text=a
+    Question2_text=b
+    Question3_text=c
+    Question4_text=d
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(800, 600)
@@ -30,16 +37,22 @@ class Ui_MainWindowVote(object):
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.textEdit = QtGui.QTextEdit(self.centralwidget)
         self.textEdit.setGeometry(QtCore.QRect(30, 70, 581, 61))
+        self.textEdit.setHtml(self.Question1_text)
         self.textEdit.setObjectName(_fromUtf8("textEdit"))
         self.textEdit_2 = QtGui.QTextEdit(self.centralwidget)
         self.textEdit_2.setGeometry(QtCore.QRect(30, 180, 581, 61))
         self.textEdit_2.setObjectName(_fromUtf8("textEdit_2"))
+        self.textEdit_2.setHtml(self.Question2_text)
         self.textEdit_3 = QtGui.QTextEdit(self.centralwidget)
         self.textEdit_3.setGeometry(QtCore.QRect(30, 310, 581, 61))
         self.textEdit_3.setObjectName(_fromUtf8("textEdit_3"))
+        self.textEdit_3.setHtml(self.Question3_text)
+
         self.textEdit_4 = QtGui.QTextEdit(self.centralwidget)
         self.textEdit_4.setGeometry(QtCore.QRect(30, 420, 581, 61))
         self.textEdit_4.setObjectName(_fromUtf8("textEdit_4"))
+        self.textEdit_4.setHtml(self.Question4_text)
+
         self.Vote1 = QtGui.QPushButton(self.centralwidget)
         self.Vote1.setGeometry(QtCore.QRect(650, 90, 93, 28))
         self.Vote1.setObjectName(_fromUtf8("Vote1"))
