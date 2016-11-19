@@ -37,7 +37,7 @@ class Classprofile(object):
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.bg = QtGui.QLabel(self.centralwidget)
-        self.bg.setGeometry(QtCore.QRect(0, 0, 280, 430))
+        self.bg.setGeometry(QtCore.QRect(0, 0, 280, 650))
         self.bg.setText(_fromUtf8(""))
         self.bg.setPixmap(QtGui.QPixmap(_fromUtf8("teacherBackground_6")))
         self.bg.setObjectName(_fromUtf8("bg"))
@@ -126,18 +126,23 @@ class Classprofile(object):
 
     def plot(self):
         font = {'family' : 'normal',
-        'size'   : 5}
+        'size'   : 7}
 
         matplotlib.rc('font', **font)
 
         figg = matplotlib.pyplot.figure(figsize=(2.50,2.00))
+
         y = []
         x= []
-        for i in range(0,20):
+        a = 50
+        for i in range(0,200):
             x.append(i)
-            y.append(random.randrange(0,100))
-        figg.add_subplot(111).plot(x,y,'g--')
-        figg.savefig("graph.png", facecolor='lightgreen', transparent=True,edgecolor='green')
+            a+= random.randrange(-10,10)
+            y.append(a)
+        figg.add_subplot(111).plot(x,y,'w-')
+        figg.add_subplot(111).axis([0,200,0,100])
+        figg.add_subplot(111).grid(True)
+        figg.savefig("graph.png", facecolor='#00a022', transparent=True,edgecolor='green')
         self.graph.setPixmap(QtGui.QPixmap(_fromUtf8("graph.png")))
 
         #plt.plot([1,2,3,4,5],[3,4,8,2,1],'r--')
