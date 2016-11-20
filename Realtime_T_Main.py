@@ -30,7 +30,7 @@ def callSProfile(Sid=""):# somethinglike "58340500075"
     data0 = cur.fetchall()
     lendata0 = len(data0)
 
-    returnthing = (Sid,lendata,lendata0,data0)#id,clicklenght,questionlenght,question
+    returnthing = (Sid,lendata0,lendata,data0)#id,questionlenght,clicklenght,question
 
     mydb.close()
     return returnthing
