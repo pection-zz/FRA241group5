@@ -10,6 +10,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtGui import QDialog
 from PyQt4.QtCore import SIGNAL
 import time
+import MySQLdb
 from Realtime_Server import Databaze
 
 def callQuestion(d="",sid=""):#d is date like "2016-10-2" sid "241001"
