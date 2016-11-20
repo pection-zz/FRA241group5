@@ -12,6 +12,20 @@ from PyQt4.QtCore import SIGNAL
 import time
 from Realtime_Server import Databaze
 
+def callQuestion(d="",sid=""):#d is date like "2016-10-2" sid "241001"
+    mydb = MySQLdb.connect(host='10.61.3.223',port=3306,user='2016FRA241G5',passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5')
+
+    cur = mydb.cursor()
+    call = "SELECT `Question`,`Vote`,`Seen` FROM `Question Table` WHERE TIME>='2016-11-08 00:00:00' AND TIME<='2016-11-08 23:59:59'"
+    call=call.replace('2016-11-08',d)
+    call=call.replace('241001',sid)
+    cur.execute(call)
+
+    data = cur.fetchall()
+
+    mydb.close()
+    return data
+
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
