@@ -11,6 +11,31 @@ from add import ADD
 from Q import Q
 import sys
 
+import MySQLdb
+
+def callSProfile(Sid=""):# somethinglike "58340500075"
+    mydb = MySQLdb.connect(host='10.61.3.223', port=3306, user='2016FRA241G5', passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5')
+
+    cur = mydb.cursor()
+    call = "SELECT `Status` FROM `Click Table` WHERE `Student ID`='58340500075'"
+    call=call.replace("58340500075",Sid)
+    cur.execute(call)
+
+    data = cur.fetchall()
+    lendata = len(data)
+
+    call = "SELECT `Question` FROM `Question Table` WHERE `Student ID`='58340500075'"
+    call=call.replace("58340500075", Sid)
+    cur.execute(call)
+    data0 = cur.fetchall()
+    lendata0 = len(data0)
+
+    returnthing = (Sid,lendata,lendata0,data0)#id,clicklenght,questionlenght,question
+
+    mydb.close()
+    return returnthing
+
+
 class start_teacher(QtGui.QMainWindow,MAINWINDOW,DETAIL,QUIZ,Classprofile,STUDENT, QUESTIONSTUDENT,ADD,Q):
         def __init__(self, parent=None):
             super(start_teacher,self).__init__(parent)
