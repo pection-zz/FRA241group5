@@ -27,7 +27,7 @@ except AttributeError:
 
 class QUESTIONSTUDENT(object):
 
-    def callQuestion(self,d="",sid=""):#d is date like "2016-10-2" sid "241001"
+    def callQuestion(self,d="",sid=""):#input sample "2016-11-22","141"
         mydb = MySQLdb.connect(host='10.61.3.223',port=3306,user='2016FRA241G5',passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5',charset='utf8')
 
 
