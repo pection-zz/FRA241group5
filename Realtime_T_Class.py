@@ -12,6 +12,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.pyplot
 import random
+import MySQLdb
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -124,6 +125,75 @@ class Classprofile(object):
         self.dateEdit.setDate(QtCore.QDate(2016,12,1))
         self.timeEdit.setTime(QtCore.QTime(8,00,00))
 
+    def callClick(self,t="",sid=""):#exampleinput callClick("2016-11-8","241001")
+        mydb = MySQLdb.connect(host='10.61.3.223',port=3306,user='2016FRA241G5',passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5')
+        cur = mydb.cursor()
+        ns1=0#overall status 1
+        ns0=0#overall status 0
+        pers=0#% (ns1*100)/(ns1+ns2)
+        data1 = ()#data return
+        data2 = ()#data return test
+        timesort = []
+        for i in range(0, 24):#create time(text) for sort (every 1 min for 24 hour)
+            for n in range(0, 60, 1):
+                if i < 10:
+                    if n >= 10:
+                        re = "0" + (str)(i) + ":" + (str)(n) + ":" + "00"
+                    else:
+                        re = "0" + (str)(i) + ":" + "0" + (str)(n) + ":" + "00"
+                if i >= 10:
+                    if n >= 10:
+                        re = (str)(i) + ":" + (str)(n) + ":" + "00"
+                    else:
+                        re = (str)(i) + ":" + "0" + (str)(n) + ":" + "00"
+                timesort.append(re)
+
+
+        for i in range(0, (len(timesort))):#call every 1 min
+            if i == ((len)(timesort)-1):
+                call = "SELECT * FROM `Click Table` WHERE (TIME>='2016-11-9 0:0:0' AND TIME<='2016-11-9 0:5:0') AND `Class ID`='241001' AND `Status` = 1"#call status 1 order
+                call = call.replace('2016-11-9', t)
+                call = call.replace('241001', sid)
+                call = call.replace('0:0:0',"23:55:00")
+                call = call.replace('0:5:0',"23:59:59")
+                cur.execute(call)#call status 1
+                data = cur.fetchall() # Sometype of file to tuple
+                data1 = data1 + data #add data
+                call = call.replace('`Status` = 1','`Status` = 0')#call status 0 order
+                cur.execute(call)#call status 0
+                data = cur.fetchall()  # Sometype of file to tuple
+
+                data1 = data1 + data  # add data
+                #print call + "calltest1" test
+            else:
+                call = "SELECT * FROM `Click Table` WHERE (TIME>='2016-11-9 0:0:0' AND TIME<='2016-11-9 0:5:0') AND `Class ID`='241001' AND `Status` = 1"#call status 1 order
+                call = call.replace('2016-11-9', t)
+                call = call.replace('241001', sid)
+                call = call.replace('0:0:0', timesort[i])
+                call = call.replace('0:5:0', timesort[i + 1])
+                cur.execute(call)#call status 1
+                data = cur.fetchall() # Sometype of file to tuple
+                ns1 = (len(data))  # number status1
+
+                data1 = data1 + data #add data
+                call = call.replace('`Status` = 1','`Status` = 0')#call status 0 order
+                cur.execute(call)#call status 0
+                data = cur.fetchall()  # Sometype of file to tuple
+                ns0 = (len(data))  # number status0
+
+                data1 = data1 + data # add data
+
+
+                if (ns0!=0)|(ns1!=0):
+                    pers = int((ns1 * 100) // (ns0 + ns1))
+                    datasent = ( (ns1, ns0, pers, timesort[i]),)
+                    data2 = data2 + datasent  # number status1,number status2,persentage,time1,time2
+                #print call + "calltest2" test
+        mydb.close()
+        if data2==():
+            return "Don't Have any Data Sorry"
+        else:
+            return data2
     def plot(self):
         font = {'family' : 'normal',
         'size'   : 7}
