@@ -8,6 +8,8 @@
 
 from PyQt4 import QtCore, QtGui
 
+import MySQLdb
+
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
