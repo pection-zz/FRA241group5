@@ -7,9 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
-
 import MySQLdb
-
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -24,8 +22,11 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
+
+
+
 class QUESTIONSTUDENT(object):
-    
+
     def allQuestion_vote(self):
         mydb = MySQLdb.connect(host='10.61.3.223', port=3306, user='2016FRA241G5', passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5', charset='utf8')
         cur = mydb.cursor()
@@ -33,19 +34,36 @@ class QUESTIONSTUDENT(object):
         cur.execute(call)
         data = cur.fetchall()
         mydb.close()
+        print data
         return data
+kkk = QUESTIONSTUDENT()
+testallQ = kkk.allQuestion_vote()
+for i in testallQ:
+    print i
+
+    Que = '2016-11-07'
+    Que2 = '2016-11-08'
+    def Update(self,stu):
+        self.Que = long(stu)
+        Databaselist = self. allQuestion_vote(Que=str(stu))
+        ID=str(Databaselist[0])
+
+        return ID
+
+
     def setupUi(self, QuestionFormStudent_2):
         QuestionFormStudent_2.setObjectName(_fromUtf8("QuestionFormStudent_2"))
-        QuestionFormStudent_2.setFixedSize(240, 400)
+        QuestionFormStudent_2.setFixedSize(240,400)#240,400
         self.centralwidget = QtGui.QWidget(QuestionFormStudent_2)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
+
         self.bg = QtGui.QLabel(self.centralwidget)
         self.bg.setGeometry(QtCore.QRect(0, 0, 240, 400))
         self.bg.setText(_fromUtf8(""))
         self.bg.setPixmap(QtGui.QPixmap(_fromUtf8("teacherBackground_3")))
         self.bg.setObjectName(_fromUtf8("bg"))
         self.verticalLayoutWidget = QtGui.QLabel(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(20, 60, 200, 260))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(20, 60, 200, 260))#(20, 60, 200, 260))
         self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
         self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
@@ -63,7 +81,7 @@ class QUESTIONSTUDENT(object):
         self.QuestionFormStudent.setObjectName(_fromUtf8("QuestionFormStudent"))
         self.verticalLayout.addWidget(self.QuestionFormStudent)
         self.back = QtGui.QPushButton(self.centralwidget)
-        self.back.setGeometry(QtCore.QRect(30, 330 , 50, 31))
+        self.back.setGeometry(QtCore.QRect(30, 330 , 50, 31)) #(30, 330 , 50, 31))
         self.back.setObjectName(_fromUtf8("back"))
         QuestionFormStudent_2.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(QuestionFormStudent_2)
@@ -74,15 +92,53 @@ class QUESTIONSTUDENT(object):
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
         QuestionFormStudent_2.setStatusBar(self.statusbar)
         self.verticalLayoutWidget.setStyleSheet("background-color: green;color: white;font-size: 13pt;border: white")
-        self.back.setStyleSheet("background-color: green;color: white;font-size: 11pt;border: white")
-        self.retranslateUi(QuestionFormStudent_2)
-        QtCore.QMetaObject.connectSlotsByName(QuestionFormStudent_2)
+        self.back.setStyleSheet("background-color:Green;color: white;font-size: 11pt;border: white")#coller
+        self.retranslateUi(QuestionFormStudent_2) #blakไม่ออก
+        QtCore.QMetaObject.connectSlotsByName(QuestionFormStudent_2) #blakไม่ออก
+
+        self.lineEdit = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit.setGeometry(QtCore.QRect(20, 62, 200, 40))
+        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
+        self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
+
+        self.lineEdit2 = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit2.setGeometry(QtCore.QRect(20, 102, 200, 40))
+        self.lineEdit2.setObjectName(_fromUtf8("lineEdit"))
+        self.lineEdit2.setText(_translate("QuestionFormStudent_2", str(self.Que2), None))
+
+
+
+
+
+
+
 
     def retranslateUi(self, QuestionFormStudent_2):
         QuestionFormStudent_2.setWindowTitle(_translate("QuestionFormStudent_2", "MainWindow", None))
-        self.QuestionFormStudent.setHtml(_translate("QuestionFormStudent_2", "0 question.", None))
+        #self.QuestionFormStudent.setStyleSheet("background-color: white; color: red;font-size: 15pt")#สีแดง,ตัวหนังสือ15
         self.back.setText(_translate("QuestionFormStudent_2", "Back", None))
+        self.QuestionFormStudent.setHtml(_translate("QuestionFormStudent_2", "Question", None))
+        #self.lineEdit.setText(_translate("MainWindow", str(self.stuID), None))
         self.label_2.setText(_translate("QuestionFormStudent_2", "Question", None))
+
+
+    def ID(self,i):
+        self.Que  = long(self.Que)+ i
+        self.lineEdit.setText(_translate("MainWindow", str(self.Que), None))
+
+
+
+
+
+
+
+
+
+    #def ID(self,i):
+     #   self.stuID  = long(self.stuID)+ i
+      #  self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.stuID), None))
+
+
 
 
 if __name__ == "__main__":
@@ -93,4 +149,8 @@ if __name__ == "__main__":
     ui.setupUi(QuestionFormStudent_2)
     QuestionFormStudent_2.show()
     sys.exit(app.exec_())
+
+
+
+
 
