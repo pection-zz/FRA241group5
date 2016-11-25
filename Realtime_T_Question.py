@@ -23,6 +23,15 @@ except AttributeError:
         return QtGui.QApplication.translate(context, text, disambig)
 
 class QUESTIONSTUDENT(object):
+    
+    def allQuestion_vote(self):
+        mydb = MySQLdb.connect(host='10.61.3.223', port=3306, user='2016FRA241G5', passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5', charset='utf8')
+        cur = mydb.cursor()
+        call = "SELECT `Question`,`Vote` FROM `Question Table` "
+        cur.execute(call)
+        data = cur.fetchall()
+        mydb.close()
+        return data
     def setupUi(self, QuestionFormStudent_2):
         QuestionFormStudent_2.setObjectName(_fromUtf8("QuestionFormStudent_2"))
         QuestionFormStudent_2.setFixedSize(240, 400)
