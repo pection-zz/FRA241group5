@@ -46,6 +46,15 @@ class QUESTIONSTUDENT(object):
         mydb.close()
         #print data#เทศปริ้น
         return data
+    def allQuestion_vote(self):
+        mydb = MySQLdb.connect(host='10.61.3.223', port=3306, user='2016FRA241G5', passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5', charset='utf8')
+        cur = mydb.cursor()
+        call = "SELECT `Question`,`Vote` FROM `Question Table` "
+        cur.execute(call)
+        data = cur.fetchall()
+        mydb.close()
+        #print data#เทศปริ้น
+        return data
 kkk = QUESTIONSTUDENT()
 testallQ = kkk.allQuestion_vote()
 for i in testallQ:
