@@ -6,19 +6,22 @@ from Realtime_S_Question import Ui_MainWindowVote
 from Realtime_S_Ask import Ui_MainWindowQuestion
 import time
 from Realtime_Server import Databaze
+import time
 import signal
 a=0
 class HumanoidMainWindow(QtGui.QMainWindow,Ui_Form):
 
 
-    ClassID = 241001
-    StuID = 58340500051
+    ClassID = 241
+    StuID = None
     Click_table = 0
     lastdatetime = ''
 
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None,Username = None,Cls=None):
         super(HumanoidMainWindow, self).__init__(parent)
+        self.StuID = Username
+        self.ClassID = Cls
         #get username and class
         self.ui = Ui_Form()
         self.ui.setupUi(self)
@@ -63,7 +66,10 @@ class HumanoidMainWindow(QtGui.QMainWindow,Ui_Form):
         self.TF(1)
 
     def VoteTrue(self):
+        WindowVote = 0
+        WindowVote = Votewindow(Username = self.StuID,Cls = self.ClassID)
         WindowVote.show()
+
 
 
     def Question(self):
@@ -74,15 +80,21 @@ class HumanoidMainWindow(QtGui.QMainWindow,Ui_Form):
 class Votewindow(QtGui.QMainWindow,Ui_MainWindowVote):
     id = []
     ques_table = 0
+    alis = 0
+    ClassID = None
 
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None,Username = None,Cls = None):
         super(Votewindow, self).__init__(parent)
-        self.ui = Ui_MainWindowVote()
+        self.ui = Ui_MainWindowVote(Username,Cls)
+        self.ClassID = Cls
         self.ques_table = 0
         self.ques_table = Databaze(server='10.61.3.223',username='2016FRA241G5',password='SzTGde9E9AxVaNXA',database='2016FRA241G5',use_unicode=True)
         alis = self.ques_table.SQL("SELECT"+""+" `Question ID`, `Question` FROM `Question Table` WHERE (`Class ID` ="+str(self.ClassID)+") AND (`seen` <1) ORDER BY `Time` DESC LIMIT 4")
-        self.id = [alis[0][0],alis[1][0],alis[2][0],alis[3][0]]
+
+        self.id = []
+        for i in range(0,len(alis)):
+            self.id.append(alis[i][0])
         self.ui.setupUi(self,alis)
         self.ActionVote()
 
@@ -90,6 +102,7 @@ class Votewindow(QtGui.QMainWindow,Ui_MainWindowVote):
 
 
     def ActionVote(self):
+        print self.id , "IDIDIDIDIDI"
         QtCore.QObject.connect(self.ui.Vote1, QtCore.SIGNAL("clicked()"),lambda: self.GetVoteQuestion(self.id[0]))
         QtCore.QObject.connect(self.ui.Vote2, QtCore.SIGNAL("clicked()"),lambda: self.GetVoteQuestion(self.id[1]))
         QtCore.QObject.connect(self.ui.Vote3, QtCore.SIGNAL("clicked()"),lambda: self.GetVoteQuestion(self.id[2]))
@@ -142,10 +155,10 @@ class Votewindow(QtGui.QMainWindow,Ui_MainWindowVote):
 
 
 class Questionwindow(QtGui.QMainWindow,Ui_MainWindowQuestion):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None,Username = None,Cls =None):
         super(Questionwindow, self).__init__(parent)
         self.ui = Ui_MainWindowQuestion()
-        self.ui.setupUi(self)
+        self.ui.setupUi(self,Username = Username,Cls = Cls)
         self.ActionQuestion()
     def ActionQuestion(self):
         QtCore.QObject.connect(self.ui.Sendbutton, QtCore.SIGNAL("clicked()"), self.Send)
@@ -156,12 +169,40 @@ class Questionwindow(QtGui.QMainWindow,Ui_MainWindowQuestion):
 
 
 
+def login(Username=None,Subject=None):
+    Date = str(time.asctime(time.localtime(time.time())))
+    Day = Date[:3]
+    Time = Date[11:13]
+
+    login_table = Databaze(server='10.61.3.223',username='2016FRA241G5',password='SzTGde9E9AxVaNXA',database='2016FRA241G5')
+    re = login_table.SELECT(table="Student Profile",select="Student ID",column="Student ID",IS= Username)
+    if int(str(Username)[-2:]) >= 40:
+        sec = "B"
+    else:
+        sec = "A"
+    if len(re) == 0:
+        login_table.ADD(table="Student Profile",column=["Student ID","Section","Login (amount)","Mini Quiz (amount)","Question ask (amount)","Correct (amount)","Answer (amount)"],value=[Username,sec,0,0,0,0,0])
+    lis = login_table.SELECT(table="Subject",different=True,select="Code`,`Time",column="Day",IS='"'+Day+'"')
+
+    if int(Time) < 13:
+        search = 0
+    else:
+        search = 1
+    for e in lis:
+        if e[1] == search:
+            return e[0]
+    else:
+        return None
+
 
 if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
-    MainWindow = HumanoidMainWindow()
-    WindowVote = Votewindow()
-    Windowquestion = Questionwindow()
-
-    MainWindow.show()
-    sys.exit(app.exec_())
+    US = 58340500051
+    if US is not None:
+        cls = login(Username = US)[3:]
+        if cls != None:
+            app = QtGui.QApplication(sys.argv)
+            MainWindow = HumanoidMainWindow(Username = US,Cls=cls)
+            WindowVote = Votewindow(Username = US,Cls=cls)
+            Windowquestion = Questionwindow(Username = US,Cls =cls)
+            MainWindow.show()
+            sys.exit(app.exec_())
