@@ -1,5 +1,7 @@
 
 from PyQt4 import QtCore, QtGui
+import time
+import MySQLdb
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -16,6 +18,49 @@ except AttributeError:
         return QtGui.QApplication.translate(context, text, disambig)
 
 class DETAIL(object):
+
+    def Oneshot(self,t="",sid="",time=15.00):
+        mydb = MySQLdb.connect(host='10.61.3.223',port=3306,user='2016FRA241G5',passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5')
+        cur = mydb.cursor()
+        ns1=0#overall status 1
+        ns0=0#overall status 0
+        pers=0#% (ns1*100)/(ns1+ns2)
+        data1 = ()#data return
+        data2 = ()#data return test
+
+        if True:
+            if True:
+                call = "SELECT * FROM `Click Table` WHERE (TIME>='"+str(t)+" "+str(time-0.05).replace(".",":")+":00"+"' AND TIME<='"+str(t)+" "+ str(time).replace(".",":")+":00"+"') AND `Class ID`='"+str(sid)+"' AND `Status` = 1"#call status 1 order
+
+
+                cur.execute(call)#call status 1
+                data = cur.fetchall() # Sometype of file to tuple
+                ns1 = (len(data))  # number status1
+
+                data1 = data1 + data #add data
+                call = call.replace('`Status` = 1','`Status` = 0')#call status 0 order
+                cur.execute(call)#call status 0
+                data = cur.fetchall()  # Sometype of file to tuple
+                ns0 = (len(data))  # number status0
+
+                data1 = data1 + data # add data
+                #print data1
+
+                if True:
+                #if (ns0!=0)|(ns1!=0):
+                    if (ns0 + ns1) != 0:
+                        pers = int((ns1 * 100) // (ns0 + ns1))
+                    else:
+                        pers = 50
+                    datasent = (ns1, ns0, pers)
+                    data2 = data2 + datasent  # number status1,number status2,persentage,time1,time2
+                #print call + "calltest2" test
+        mydb.close()
+        if data2==():
+            return None
+        else:
+            return data2
+
     def setupUi(self, MainWindow,clas):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setFixedSize(210, 320)
@@ -101,9 +146,18 @@ class DETAIL(object):
         self.STUDENTPROFILE.setStyleSheet("background-color: green;color: white;font-size: 11pt;border: white")
         self.SHOWQUESTION.setStyleSheet("background-color: green;color: white;font-size: 11pt;border: white")
         self.back1.setStyleSheet("background-color: green;color: white;font-size: 11pt;border: white")
-
+        datetime = time.asctime( time.localtime(time.time())) #Tue Nov 08 12:41:18 2016
+        datetime = datetime[20:24]+"-"+str(self.monthToNum(datetime[4:7]))+"-"+datetime[8:10]+" "+datetime[11:19]
+        l2 = self.Oneshot(t=datetime[:10],sid=clas,time=float(datetime[11:19][:5].replace(":",".")))
+        self.StatRealTimeUnderstand.setValue(l2[2])
+        self.amount.setText(_translate("MainWindow", "amount "+str(l2[0])+" / "+str(int(l2[0]+l2[1])), None))
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def monthToNum(self,shortMonth):
+
+        return{'Jan' : 1,'Feb' : 2,'Mar' : 3,'Apr' : 4,'May' : 5,'Jun' : 6, 'Jul' : 7,'Aug' : 8,'Sep' : 9, 'Oct' : 10,'Nov' : 11,'Dec' : 12}[shortMonth]
+
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
@@ -113,7 +167,7 @@ class DETAIL(object):
         self.SHOWQUESTION.setText(_translate("MainWindow", "Question", None))
         self.back1.setText(_translate("MainWindow", "Back", None))
         self.label.setText(_translate("MainWindow", "Understand", None))
-        self.amount.setText(_translate("MainWindow", "from 00 / 00", None))
+
 
 
 if __name__ == "__main__":
