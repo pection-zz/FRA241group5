@@ -53,11 +53,11 @@ class QUESTIONSTUDENT(object):
         cur.execute(call)
         data = cur.fetchall()
         mydb.close()
-        #เทสฟังชั่น
+        
         #kkk = calldatabase()
         #testallQ = kkk.allQuestion_vote()
         #for i in range((len(testallQ) - 1)):
-        #    print(testallQ[i][0])#testallQ[i][0] 0คือคำถาม1คือVote
+        #    print(testallQ[i][0])
         return data
 kkk = QUESTIONSTUDENT()
 testallQ = kkk.allQuestion_vote()
