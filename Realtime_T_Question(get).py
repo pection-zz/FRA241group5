@@ -32,44 +32,16 @@ class QUESTIONSTUDENT(object):
         mydb = MySQLdb.connect(host='10.61.3.223', port=3306, user='2016FRA241G5', passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5', charset='utf8')
         cur = mydb.cursor()
         call = "SELECT `Question`,`Vote` FROM `Question Table` "
-        # print call
-        # print cur
         cur.execute(call)
         data = cur.fetchall()
         mydb.close()
-        # print data
-        return data
-        ############################################################################
-    # หาวิธีลบคำถามที่ back กลับแล้วเข้าใหม่เปลี่ยนเป็นอันใหม่ไม่เป็น รู้คอนเสบแต่เขียนไม่เป็น ว่าที่เขียนออกมามันเริ่มเก็บ[0][1] ลงไป [1][1]ไปเรื่อยๆ
-    #
-    # Que = 'ควาย'
-    # Que2 = '2016-11-08'
-    # def Update(self,stu):
-    #     self.Que = long(stu)
-    #     Databaselist = self. allQuestion_vote(Que=str(stu))
-    #     ID=str(Databaselist[0])
 
+        return data
         return ID
     dataquestion=allQuestion_vote(object)
-    print('%d' % (dataquestion[0][1]))
-    print('%d' % (dataquestion[2][1]))
+    #print('%d' % (dataquestion[0][1]))
+    #print('%d' % (dataquestion[2][1]))
 
-
-    def gg (self):
-        self.lineEdit2.setText(self.dataquestion[1][0])
-    def ge (self):
-        self.lineEdit.setText(self.dataquestion[0][0])
-
-    aList = [123, gg , 'xyz', 'abc',  ge];
-
-    aList.remove(gg);
-    print "List : ", aList
-    aList.remove('xyz');
-    print "List : ", aList
-
-
-
-    #a="get"
     def setupUi(self, QuestionFormStudent_2,):
         QuestionFormStudent_2.setObjectName(_fromUtf8("QuestionFormStudent_2"))
         QuestionFormStudent_2.setFixedSize(240,400)#240,400
@@ -115,52 +87,91 @@ class QUESTIONSTUDENT(object):
         self.retranslateUi(QuestionFormStudent_2) #blakไม่ออก
         QtCore.QMetaObject.connectSlotsByName(QuestionFormStudent_2) #blakไม่ออก
 
-        self.lineEdit = QtGui.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(20, 62, 200, 40))
+        self.lineEdit = QtGui.QLabel(self.centralwidget)
+        self.lineEdit.setGeometry(QtCore.QRect(20, 75, 200, 30)) #ช่องสีขาว lineEdit
+        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
+        self.lineEdit.setStyleSheet("background-color: green;font-size: 9pt;border:1px solid black")
+        self.lineEdit2 = QtGui.QLabel(self.centralwidget)
+        self.lineEdit2.setGeometry(QtCore.QRect(20, 108, 200, 30)) #ช่องสีขาว lineEdit2
+        self.lineEdit2.setObjectName(_fromUtf8("lineEdit"))
+        self.lineEdit2.setStyleSheet("background-color: green;font-size: 9pt;border:1px solid black")
+        self.lineEdit3 = QtGui.QLabel(self.centralwidget)
+        self.lineEdit3.setGeometry(QtCore.QRect(20, 141, 200, 30)) #ช่องสีขาว lineEdit3
+        self.lineEdit3.setObjectName(_fromUtf8("lineEdit"))
+        self.lineEdit3.setStyleSheet("background-color: green;font-size: 9pt;border:1px solid black")
+        self.lineEdit4 = QtGui.QLabel(self.centralwidget)
+        self.lineEdit4.setGeometry(QtCore.QRect(20, 174, 200, 30)) #ช่องสีขาว lineEdit3
+        self.lineEdit4.setObjectName(_fromUtf8("lineEdit"))
+        self.lineEdit4.setStyleSheet("background-color: green;font-size: 9pt;border:1px solid black")
+        self.lineEdit5 = QtGui.QLabel(self.centralwidget)
+        self.lineEdit5.setGeometry(QtCore.QRect(20, 207, 200, 30)) #ช่องสีขาว lineEdit3
+        self.lineEdit5.setObjectName(_fromUtf8("lineEdit"))
+        self.lineEdit5.setStyleSheet("background-color:green;font-size: 9pt;border:1px solid black")
+        self.lineEdit6 = QtGui.QLabel(self.centralwidget)
+        self.lineEdit6.setGeometry(QtCore.QRect(20, 240, 200, 30)) #ช่องสีขาว lineEdit3
+        self.lineEdit6.setObjectName(_fromUtf8("lineEdit"))
+        self.lineEdit6.setStyleSheet("background-color: green;font-size: 9pt;border:1px solid black")
+        self.lineEdit7 = QtGui.QLabel(self.centralwidget)
+        self.lineEdit7.setGeometry(QtCore.QRect(20, 273, 200, 30)) #ช่องสีขาว lineEdit3
+        self.lineEdit7.setObjectName(_fromUtf8("lineEdit"))
+        self.lineEdit7.setStyleSheet("background-color: green;font-size: 9pt;border:1px solid black")
+
+
+        self.lineEdit = QtGui.QLabel(self.centralwidget) #self.lineEdit = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit.setGeometry(QtCore.QRect(30, 70, 200, 40))#20
         self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
         try:
-            self.lineEdit.setText(self.dataquestion[0][0]+'                                            %d' % (self.dataquestion[2][1])) #ขนาดข้อความที่รับมาอยู่ข่อง 1
+            self.lineEdit.setText(self.dataquestion[0][0]+'                                vode  %d'% (self.dataquestion[2][1])) #ขนาดข้อความที่รับมาอยู่ข่อง 1
         except:
             pass
-        self.lineEdit2 = QtGui.QLineEdit(self.centralwidget)
-        self.lineEdit2.setGeometry(QtCore.QRect(20, 102, 200, 40))
+
+        self.lineEdit2 = QtGui.QLabel(self.centralwidget) #self.lineEdit2 = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit2.setGeometry(QtCore.QRect(30, 102, 200, 40))#self.lineEdit2.setGeometry(QtCore.QRect(20, 102, 200, 40))
         self.lineEdit2.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit2.setText(_translate("QuestionFormStudent_2", str(self.Que2), None))
         try:
-            self.lineEdit2.setText(self.dataquestion[1][0]+'                                               %d' % (self.dataquestion[2][1])) #ขนาดข้อความที่รับมาอยู่ข่อง2
+            self.lineEdit2.setText(self.dataquestion[1][0]+'                                   vode  %d'% (self.dataquestion[2][1])) #ขนาดข้อความที่รับมาอยู่ข่อง2
         except:
             pass
-        self.lineEdit3 = QtGui.QLineEdit(self.centralwidget)
-        self.lineEdit3.setGeometry(QtCore.QRect(20, 142, 200, 40))
+        self.lineEdit3 = QtGui.QLabel(self.centralwidget)#self.lineEdit3 = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit3.setGeometry(QtCore.QRect(30, 134, 200, 40))#self.lineEdit3.setGeometry(QtCore.QRect(20, 142, 200, 40))
         self.lineEdit3.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
         try:
-            self.lineEdit3.setText(self.dataquestion[2][0]+'                                                   %d'% (self.dataquestion[0][1])) #ขนาดข้อความที่รับมาอยู่ข่อง3
+            self.lineEdit3.setText(self.dataquestion[2][0]+'                                       vode  %d'% (self.dataquestion[0][1])) #ขนาดข้อความที่รับมาอยู่ข่อง3
         except:
             pass
-        self.lineEdit4 = QtGui.QLineEdit(self.centralwidget)
-        self.lineEdit4.setGeometry(QtCore.QRect(20, 182, 200, 40))
+        self.lineEdit4 = QtGui.QLabel(self.centralwidget)#self.lineEdit4 = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit4.setGeometry(QtCore.QRect(30, 166, 200, 40))#self.lineEdit4.setGeometry(QtCore.QRect(20, 182, 200, 40))
         self.lineEdit4.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
         try:
-            self.lineEdit4.setText(self.dataquestion[3][0]+'                                             %d'% (self.dataquestion[3][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
+            self.lineEdit4.setText(self.dataquestion[3][0]+'                                 vode  %d'% (self.dataquestion[3][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
         except:
             pass
-        self.lineEdit5 = QtGui.QLineEdit(self.centralwidget)
-        self.lineEdit5.setGeometry(QtCore.QRect(20, 222, 200, 40))
+        self.lineEdit5 = QtGui.QLabel(self.centralwidget)##self.lineEdit5 = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit5.setGeometry(QtCore.QRect(30, 200, 200, 40))#self.lineEdit5.setGeometry(QtCore.QRect(30, 222, 200, 40))
         self.lineEdit5.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
         try:
-            self.lineEdit5.setText(self.dataquestion[4][0]+'                                             %d'% (self.dataquestion[4][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
+            self.lineEdit5.setText(self.dataquestion[4][0]+'                                 vode  %d'% (self.dataquestion[4][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
         except:
             pass
-        self.lineEdit6 = QtGui.QLineEdit(self.centralwidget)
-        self.lineEdit6.setGeometry(QtCore.QRect(20, 262, 200, 40))
+        self.lineEdit6 = QtGui.QLabel(self.centralwidget)#self.lineEdit6 = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit6.setGeometry(QtCore.QRect(30, 232, 200, 40))#self.lineEdit6.setGeometry(QtCore.QRect(20, 262, 200, 40))
         self.lineEdit6.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
         try:
-            self.lineEdit6.setText(self.dataquestion[5][0]+'                                             %d'% (self.dataquestion[5][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
+            self.lineEdit6.setText(self.dataquestion[5][0]+'                                vode  %d'% (self.dataquestion[5][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
+        except:
+            pass
+        self.lineEdit7 = QtGui.QLabel(self.centralwidget)#self.lineEdit6 = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit7.setGeometry(QtCore.QRect(30, 264, 200, 40))#self.lineEdit6.setGeometry(QtCore.QRect(20, 262, 200, 40))
+        self.lineEdit7.setObjectName(_fromUtf8("lineEdit"))
+        # self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
+        try:
+            self.lineEdit7.setText(self.dataquestion[6][0]+'                                     vode  %d'% (self.dataquestion[6][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
         except:
             pass
 
@@ -174,9 +185,9 @@ class QUESTIONSTUDENT(object):
         QuestionFormStudent_2.setWindowTitle(_translate("QuestionFormStudent_2", "MainWindow", None))
         #self.QuestionFormStudent.setStyleSheet("background-color: white; color: red;font-size: 15pt")#สีแดง,ตัวหนังสือ15
         self.back.setText(_translate("QuestionFormStudent_2", "Back", None))
-        self.QuestionFormStudent.setHtml(_translate("QuestionFormStudent_2", "Question", None))
-        #self.lineEdit.setText(_translate("MainWindow", str(self.stuID), None))
-        self.label_2.setText(_translate("QuestionFormStudent_2", "Question", None))
+        #self.QuestionFormStudent.setHtml(_translate("QuestionFormStudent_2", "No Question", None))
+        self.label_2.setText(_translate("QuestionFormStudent_2", "Question ", None))
+        #self.QuestionFormStudent.setHtml(_translate("QuestionFormStudent_2", "no Question <br> new line here.", None))
 
 
 
