@@ -57,9 +57,49 @@ class Classprofile(object):
         for elem in newdata:
             stre += elem[0]+ " from "+str(elem[1]) + "\n"
         return stre
+    def Oneshot(self,t="",sid="",time=15.00):
+        mydb = MySQLdb.connect(host='10.61.3.223',port=3306,user='2016FRA241G5',passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5')
+        cur = mydb.cursor()
+        ns1=0#overall status 1
+        ns0=0#overall status 0
+        pers=0#% (ns1*100)/(ns1+ns2)
+        data1 = ()#data return
+        data2 = ()#data return test
+        if True:
+            if True:
+                call = "SELECT * FROM `Click Table` WHERE (TIME>='"+str(t)+" "+str(time-0.05).replace(".",":")+":00"+"' AND TIME<='"+str(t)+" "+ str(time).replace(".",":")+":00"+"') AND `Class ID`='"+str(sid)+"' AND `Status` = 1"#call status 1 order
 
 
-    def callClick(self,t="",sid=""):#exampleinput callClick("2016-11-8","241")
+                cur.execute(call)#call status 1
+                data = cur.fetchall() # Sometype of file to tuple
+                ns1 = (len(data))  # number status1
+
+                data1 = data1 + data #add data
+                call = call.replace('`Status` = 1','`Status` = 0')#call status 0 order
+                cur.execute(call)#call status 0
+                data = cur.fetchall()  # Sometype of file to tuple
+                ns0 = (len(data))  # number status0
+
+                data1 = data1 + data # add data
+                #print data1
+
+                if True:
+                #if (ns0!=0)|(ns1!=0):
+                    if (ns0 + ns1) != 0:
+                        pers = int((ns1 * 100) // (ns0 + ns1))
+                    else:
+                        pers = 50
+                    datasent = (ns1, ns0, pers)
+                    data2 = data2 + datasent  # number status1,number status2,persentage,time1,time2
+                #print call + "calltest2" test
+        mydb.close()
+        if data2==():
+            return None
+        else:
+            return data2
+    
+
+    def callClick(self,t="",sid="",hr=16):#exampleinput callClick("2016-11-8","241")
         mydb = MySQLdb.connect(host='10.61.3.223',port=3306,user='2016FRA241G5',passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5')
         cur = mydb.cursor()
         ns1=0#overall status 1
@@ -68,24 +108,28 @@ class Classprofile(object):
         data1 = ()#data return
         data2 = ()#data return test
         timesort = []
-        for i in range(8, 16):#create time(text) for sort (every 1 min for 24 hour)
-            for n in range(0, 60, 2):
+        if hr == 0:
+            hr = 2
+        elif hr == 22:
+            hr = 21
+        for i in range((hr-1),(hr+2)):#create time(text) for sort (every 1 min for 24 hour)
+            for n in range(0, 60, 1):
                 if i < 10:
                     if n >= 10:
-                        re = "0" + (str)(i) + ":" + (str)(n) + ":" + "00"
+                        re = "0" + (str)(i) + "." + (str)(n)
                     else:
-                        re = "0" + (str)(i) + ":" + "0" + (str)(n) + ":" + "00"
+                        re = "0" + (str)(i) + "." + "0" + (str)(n)
                 if i >= 10:
                     if n >= 10:
-                        re = (str)(i) + ":" + (str)(n) + ":" + "00"
+                        re = (str)(i) + "." + (str)(n)
                     else:
-                        re = (str)(i) + ":" + "0" + (str)(n) + ":" + "00"
+                        re = (str)(i) + "." + "0" + (str)(n)
                 timesort.append(re)
 
 
         for i in range(0, (len(timesort))):#call every 1 min
-            if i == ((len)(timesort)-1):
-                call = "SELECT * FROM `Click Table` WHERE (TIME>='2016-11-9 0:0:0' AND TIME<='2016-11-9 0:5:0') AND `Class ID`='241001' AND `Status` = 1"#call status 1 order
+            """if i == ((len)(timesort)-1):
+                call = "SELECT * FROM `Click Table` WHERE (TIME>='"+str(t)+" 23:55:00' AND TIME<='"+str(t)+"23:59:59') AND `Class ID`='241001' AND `Status` = 1"#call status 1 order
                 call = call.replace('2016-11-9', t)
                 call = call.replace('241001', sid)
                 call = call.replace('0:0:0',"23:55:00")
@@ -99,12 +143,10 @@ class Classprofile(object):
 
                 data1 = data1 + data  # add data
                 #print call + "calltest1" test
-            else:
-                call = "SELECT * FROM `Click Table` WHERE (TIME>='2016-11-9 0:0:0' AND TIME<='2016-11-9 0:5:0') AND `Class ID`='241001' AND `Status` = 1"#call status 1 order
-                call = call.replace('2016-11-9', t)
-                call = call.replace('241001', sid)
-                call = call.replace('0:0:0', timesort[i])
-                call = call.replace('0:5:0', timesort[i + 1])
+            else:"""
+            if True:
+                call = "SELECT * FROM `Click Table` WHERE (TIME>='"+str(t)+" "+str(timesort[i]).replace(".",":")+":00"+"' AND TIME<='"+str(t)+" "+ str(timesort[i+1]).replace(".",":")+":00"+"') AND `Class ID`='"+str(sid)+"' AND `Status` = 1"#call status 1 order
+
                 cur.execute(call)#call status 1
                 data = cur.fetchall() # Sometype of file to tuple
                 ns1 = (len(data))  # number status1
@@ -128,18 +170,14 @@ class Classprofile(object):
                 #print call + "calltest2" test
         mydb.close()
         if data2==():
-            return "Don't Have any Data Sorry"
+            return None
         else:
             return data2
 
     def monthToNum(self,shortMonth):
-
         return{'Jan' : 1,'Feb' : 2,'Mar' : 3,'Apr' : 4,'May' : 5,'Jun' : 6, 'Jul' : 7,'Aug' : 8,'Sep' : 9, 'Oct' : 10,'Nov' : 11,'Dec' : 12}[shortMonth]
-
-
-
     
-    def setupUi(self, MainWindow,subj):
+    def setupUi(self, MainWindow,subj,PythonicDate,PythonicTime):
         self.sub = "FRA"+str(subj)
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setFixedSize(280, 650)
@@ -198,6 +236,9 @@ class Classprofile(object):
         self.label = QtGui.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 100, 100, 20))
         self.label.setObjectName(_fromUtf8("label"))
+        self.header = QtGui.QLabel(self.centralwidget)
+        self.header.setGeometry(QtCore.QRect(20, 30, 150, 20))
+        self.header.setObjectName(_fromUtf8("header"))
         self.lineEdit = QtGui.QTextEdit(self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(20, 160, 230, 200))
         self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
@@ -214,6 +255,7 @@ class Classprofile(object):
         self.label_4.setStyleSheet("color: white;font-size: 9pt;border: white")
         self.label_5.setStyleSheet("color: white;font-size: 9pt;border: white")
         self.comboBox.setStyleSheet("color: white;font-size: 9pt;border: white")
+        self.header.setStyleSheet("color: white;font-size: 13pt;border: white")
         self.ok.setStyleSheet("background-color: green;color: white;font-size: 9pt;border: white")
         self.pri.setStyleSheet("background-color: green;color: white;font-size: 9pt;border: white")
         self.back.setStyleSheet("background-color: green;color: white;font-size: 9pt;border: white")
@@ -223,14 +265,22 @@ class Classprofile(object):
         tim = lis[1]
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        print self.sub[3:]
-        l = self.callClick(ret,self.sub[3:])
+        
+        l = self.callClick(t=ret,sid=self.sub[3:],hr=int(tim[:2]))
+        l2 = self.Oneshot(t=ret,sid=self.sub[3:],time=float(str(tim)[:5].replace(":",".")))
+        self.progressBar.setValue(l2[2])
+        self.label_3.setText(_translate("MainWindow", "amount "+str(l2[0])+" / "+str(int(l2[0]+l2[1])), None))
         lis = [[],[]]
         i = 0
         for a in l:
             lis[0].append(a[2])
             i+=1
-            lis[1].append(i)
+            lis[1].append(a[3])
+        lisx = []
+        for e in lis[1]:
+            ee = float(e)
+            lisx.append(((1.0/0.6)*(ee-int(ee)))+int(ee))
+        lis[1] = lisx
         self.plot(lis)
 
         return (ret,tim)
@@ -256,14 +306,13 @@ class Classprofile(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
         self.ok.setText(_translate("MainWindow", "OK", None))
         self.pri.setText(_translate("MainWindow", "Print", None))
-        self.label_3.setText(_translate("MainWindow", "amount 00 / 00", None))
+        
         self.back.setText(_translate("MainWindow", "back", None))
         self.label_4.setText(_translate("MainWindow", "Date", None))
         self.label_5.setText(_translate("MainWindow", "Time", None))
         self.comboBox.setText(_translate("MainWindow", "Subject : "+self.sub, None))
         self.label.setText(_translate("MainWindow", "Understand(%)", None))
-        self.dateEdit.setDate(QtCore.QDate(2016,12,1))
-        self.timeEdit.setTime(QtCore.QTime(8,00,00))
+        self.header.setText(_translate("MainWindow", "Class Stat", None))
 
     def plot(self,lis):
         font = {'family' : 'normal',
@@ -280,9 +329,8 @@ class Classprofile(object):
             x.append(i)
             a+= random.randrange(-10,10)
             y.append(a)
-        print lis[0]
-        figg.add_subplot(111).plot(x,y,'w-')
-        figg.add_subplot(111).axis([0,200,0,100])
+        
+        figg.add_subplot(111).plot(lis[1],lis[0],'w-')
         figg.add_subplot(111).grid(True)
         figg.savefig("graph.png", facecolor='#00a022', transparent=True,edgecolor='green')
         self.graph.setPixmap(QtGui.QPixmap(_fromUtf8("graph.png")))
