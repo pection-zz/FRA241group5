@@ -54,7 +54,7 @@ class STUDENT(object):
     stuID = 58340500001
 
     def Update(self,stu):
-
+        self.stuID = long(stu)
         Databaselist = self.callSProfile(Sid=str(stu))
         Qall = ""
         ID=str(Databaselist[0])
@@ -64,8 +64,6 @@ class STUDENT(object):
             Qall += each[0]+"\n"
 
         return (ID,Ques,Click,Qall)
-        self.stuID = long
-
 
 
 
@@ -76,17 +74,17 @@ class STUDENT(object):
         MainWindow.setFixedSize(250, 420)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
-        self.label = QtGui.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(20, 30, 151, 41))
+
         self.bg = QtGui.QLabel(self.centralwidget)
         self.bg.setGeometry(QtCore.QRect(0, 0, 250, 420))
         self.bg.setText(_fromUtf8(""))
         self.bg.setPixmap(QtGui.QPixmap(_fromUtf8("teacherBackground_4")))
         self.bg.setObjectName(_fromUtf8("bg"))
-        font = QtGui.QFont()
-        font.setPointSize(16)
-        self.label.setFont(font)
+        self.label = QtGui.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(20, 0, 151, 1200))
         self.label.setObjectName(_fromUtf8("label"))
+        self.label.setStyleSheet("color: white;font-size: 13pt")
+
         self.label_2 = QtGui.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(20, 60, 281, 51))
         font = QtGui.QFont()
@@ -191,10 +189,10 @@ class STUDENT(object):
         QtCore.QObject.connect(self.inc, QtCore.SIGNAL("clicked()"), lambda: self.ID(1))
         QtCore.QObject.connect(self.send, QtCore.SIGNAL("clicked()"),lambda: self.Update((self.lineEdit.text())))
 
-
     def ID(self,i):
         self.stuID  = long(self.stuID)+ i
         self.lineEdit.setText(_translate("MainWindow", str(self.stuID), None))
+
 
 
 

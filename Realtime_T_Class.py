@@ -30,7 +30,8 @@ except AttributeError:
 
 class Classprofile(object):
     sub = ""
-        def allQuestion(self,class_code,date,zeroorone):
+
+    def allQuestion(self,class_code,date,zeroorone):
         mydb = MySQLdb.connect(host='10.61.3.223', port=3306, user='2016FRA241G5', passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5',use_unicode=True, charset='utf8')
         cur = mydb.cursor()
 
@@ -57,6 +58,7 @@ class Classprofile(object):
         for elem in newdata:
             stre += elem[0]+ " from "+str(elem[1]) + "\n"
         return stre
+
     def Oneshot(self,t="",sid="",time=15.00):
         mydb = MySQLdb.connect(host='10.61.3.223',port=3306,user='2016FRA241G5',passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5')
         cur = mydb.cursor()
@@ -65,6 +67,7 @@ class Classprofile(object):
         pers=0#% (ns1*100)/(ns1+ns2)
         data1 = ()#data return
         data2 = ()#data return test
+
         if True:
             if True:
                 call = "SELECT * FROM `Click Table` WHERE (TIME>='"+str(t)+" "+str(time-0.05).replace(".",":")+":00"+"' AND TIME<='"+str(t)+" "+ str(time).replace(".",":")+":00"+"') AND `Class ID`='"+str(sid)+"' AND `Status` = 1"#call status 1 order
@@ -97,9 +100,9 @@ class Classprofile(object):
             return None
         else:
             return data2
-    
 
     def callClick(self,t="",sid="",hr=16):#exampleinput callClick("2016-11-8","241")
+
         mydb = MySQLdb.connect(host='10.61.3.223',port=3306,user='2016FRA241G5',passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5')
         cur = mydb.cursor()
         ns1=0#overall status 1
@@ -112,7 +115,7 @@ class Classprofile(object):
             hr = 2
         elif hr == 22:
             hr = 21
-        for i in range((hr-1),(hr+2)):#create time(text) for sort (every 1 min for 24 hour)
+        for i in range((hr-1), (hr+2)):#create time(text) for sort (every 1 min for 24 hour)
             for n in range(0, 60, 1):
                 if i < 10:
                     if n >= 10:
@@ -126,9 +129,9 @@ class Classprofile(object):
                         re = (str)(i) + "." + "0" + (str)(n)
                 timesort.append(re)
 
-
-        for i in range(0, (len(timesort))):#call every 1 min
-            """if i == ((len)(timesort)-1):
+        for i in range(0, (len(timesort)-1)):#call every 1 min
+            print int(i*100.0/len(timesort)) , "Percent"
+            '''if i == ((len)(timesort)-1):
                 call = "SELECT * FROM `Click Table` WHERE (TIME>='"+str(t)+" 23:55:00' AND TIME<='"+str(t)+"23:59:59') AND `Class ID`='241001' AND `Status` = 1"#call status 1 order
                 call = call.replace('2016-11-9', t)
                 call = call.replace('241001', sid)
@@ -143,9 +146,11 @@ class Classprofile(object):
 
                 data1 = data1 + data  # add data
                 #print call + "calltest1" test
-            else:"""
+            else:'''
             if True:
+
                 call = "SELECT * FROM `Click Table` WHERE (TIME>='"+str(t)+" "+str(timesort[i]).replace(".",":")+":00"+"' AND TIME<='"+str(t)+" "+ str(timesort[i+1]).replace(".",":")+":00"+"') AND `Class ID`='"+str(sid)+"' AND `Status` = 1"#call status 1 order
+                #print call
 
                 cur.execute(call)#call status 1
                 data = cur.fetchall() # Sometype of file to tuple
@@ -158,6 +163,7 @@ class Classprofile(object):
                 ns0 = (len(data))  # number status0
 
                 data1 = data1 + data # add data
+                #print data1
 
                 if True:
                 #if (ns0!=0)|(ns1!=0):
@@ -175,9 +181,12 @@ class Classprofile(object):
             return data2
 
     def monthToNum(self,shortMonth):
+
         return{'Jan' : 1,'Feb' : 2,'Mar' : 3,'Apr' : 4,'May' : 5,'Jun' : 6, 'Jul' : 7,'Aug' : 8,'Sep' : 9, 'Oct' : 10,'Nov' : 11,'Dec' : 12}[shortMonth]
-    
+
+
     def setupUi(self, MainWindow,subj,PythonicDate,PythonicTime):
+
         self.sub = "FRA"+str(subj)
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setFixedSize(280, 650)
@@ -259,14 +268,15 @@ class Classprofile(object):
         self.ok.setStyleSheet("background-color: green;color: white;font-size: 9pt;border: white")
         self.pri.setStyleSheet("background-color: green;color: white;font-size: 9pt;border: white")
         self.back.setStyleSheet("background-color: green;color: white;font-size: 9pt;border: white")
-        #self..setStyleSheet("background-color: green;color: white;font-size: 9pt;border: white")
+
         lis = self.func()
         ret = lis[0]
         tim = lis[1]
+        qq = lis[2]
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        
         l = self.callClick(t=ret,sid=self.sub[3:],hr=int(tim[:2]))
+
         l2 = self.Oneshot(t=ret,sid=self.sub[3:],time=float(str(tim)[:5].replace(":",".")))
         self.progressBar.setValue(l2[2])
         self.label_3.setText(_translate("MainWindow", "amount "+str(l2[0])+" / "+str(int(l2[0]+l2[1])), None))
@@ -283,7 +293,7 @@ class Classprofile(object):
         lis[1] = lisx
         self.plot(lis)
 
-        return (ret,tim)
+        return (ret,tim,qq)
 
 
     def func(self):
@@ -298,7 +308,7 @@ class Classprofile(object):
             timee = 0
         ques = self.allQuestion(self.sub[3:],date,timee)
         self.lineEdit.setText(_translate("MainWindow", ques, None))
-        return (str(self.dateEdit.date().toPyDate()),str(self.timeEdit.time().toPyTime()))
+        return (str(self.dateEdit.date().toPyDate()),str(self.timeEdit.time().toPyTime()),ques)
 
 
 
@@ -306,7 +316,7 @@ class Classprofile(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
         self.ok.setText(_translate("MainWindow", "OK", None))
         self.pri.setText(_translate("MainWindow", "Print", None))
-        
+
         self.back.setText(_translate("MainWindow", "back", None))
         self.label_4.setText(_translate("MainWindow", "Date", None))
         self.label_5.setText(_translate("MainWindow", "Time", None))
@@ -329,7 +339,6 @@ class Classprofile(object):
             x.append(i)
             a+= random.randrange(-10,10)
             y.append(a)
-        
         figg.add_subplot(111).plot(lis[1],lis[0],'w-')
         figg.add_subplot(111).grid(True)
         figg.savefig("graph.png", facecolor='#00a022', transparent=True,edgecolor='green')
@@ -338,6 +347,7 @@ class Classprofile(object):
         #plt.plot([1,2,3,4,5],[3,4,8,2,1],'r--')
         #plt.savefig("graph.png",figg)
         #plt.show()
+
 
 if __name__ == "__main__":
     import sys

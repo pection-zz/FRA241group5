@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from PyQt4 import QtCore, QtGui
 
 from Realtime_T_First import DETAIL
@@ -6,37 +8,18 @@ from Quiz import QUIZ
 from Realtime_T_Class import Classprofile
 from Realtime_T_Student import STUDENT
 from Realtime_T_Question import QUESTIONSTUDENT
+import time
 
 from add import ADD
 from Q import Q
 import sys
 
-import MySQLdb
-
-def callSProfile(Sid=""):# somethinglike "58340500075"
-    mydb = MySQLdb.connect(host='10.61.3.223', port=3306, user='2016FRA241G5', passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5')
-
-    cur = mydb.cursor()
-    call = "SELECT `Status` FROM `Click Table` WHERE `Student ID`='58340500075'"
-    call=call.replace("58340500075",Sid)
-    cur.execute(call)
-
-    data = cur.fetchall()
-    lendata = len(data)
-
-    call = "SELECT `Question` FROM `Question Table` WHERE `Student ID`='58340500075'"
-    call=call.replace("58340500075", Sid)
-    cur.execute(call)
-    data0 = cur.fetchall()
-    lendata0 = len(data0)
-
-    returnthing = (Sid,lendata0,lendata,data0)#id,questionlenght,clicklenght,question
-
-    mydb.close()
-    return returnthing
-
-
 class start_teacher(QtGui.QMainWindow,MAINWINDOW,DETAIL,QUIZ,Classprofile,STUDENT, QUESTIONSTUDENT,ADD,Q):
+
+        chk = False
+        datdy = "2016-22-11"
+        timy = "00:00:00"
+
         def __init__(self, parent=None):
             super(start_teacher,self).__init__(parent)
             self.a=0    #fra...
@@ -60,6 +43,7 @@ class start_teacher(QtGui.QMainWindow,MAINWINDOW,DETAIL,QUIZ,Classprofile,STUDEN
             QtCore.QObject.connect(self.mainwindow.FRA221, QtCore.SIGNAL("clicked()"), lambda : self.ifsubject(221))
             QtCore.QObject.connect(self.mainwindow.FRA241, QtCore.SIGNAL("clicked()"), lambda : self.ifsubject(241))
             QtCore.QObject.connect(self.mainwindow.FRA351, QtCore.SIGNAL("clicked()"), lambda : self.ifsubject(351))
+            time.sleep(2)
 
         def ifsubject(self,id):
             self.a = id
@@ -67,8 +51,7 @@ class start_teacher(QtGui.QMainWindow,MAINWINDOW,DETAIL,QUIZ,Classprofile,STUDEN
 
         def open_detail(self):
             self.detail.setupUi(self,self.a)
-
-            QtCore.QObject.connect(self.detail.CLASSPROFILE, QtCore.SIGNAL("clicked()"), self.open_classprofile)
+            QtCore.QObject.connect(self.detail.CLASSPROFILE, QtCore.SIGNAL("clicked()"),self.open_classprofile)
             QtCore.QObject.connect(self.detail.STUDENTPROFILE, QtCore.SIGNAL("clicked()"), self.open_student)
             QtCore.QObject.connect(self.detail.SHOWQUESTION, QtCore.SIGNAL("clicked()"), self.open_questionstudent)
             QtCore.QObject.connect(self.detail.back1, QtCore.SIGNAL("clicked()"), self.open_mainwindow)
@@ -84,22 +67,38 @@ class start_teacher(QtGui.QMainWindow,MAINWINDOW,DETAIL,QUIZ,Classprofile,STUDEN
             QtCore.QObject.connect(self.quiz.back, QtCore.SIGNAL("clicked()"), self.open_detail)
             QtCore.QObject.connect(self.quiz.add, QtCore.SIGNAL("clicked()"), self.open_addpage)
 
+        def newf(self):
+
+            lis = self.classprofile.func()
+            self.datdy = lis[0]
+            self.timy = lis[1]
+
+        def write_txtfile(self,lisy):
+            text_file = open("RealtimeDownload"+'.txt', "w")
+            text_file.write(lisy.encode("utf-8"))
+            text_file.close()
 
         def open_classprofile(self):
-            self.classprofile.setupUi(self,self.a)
+            if self.chk:
+                date,tim,queslist = self.classprofile.setupUi(self,self.a,self.datdy,self.timy)
+            else:
+                date,tim,queslist = self.classprofile.setupUi(self,self.a,"2016-11-22","00:00:00")
+                self.chk = True
+            self.datdy = date
+            self.timy = tim
 
-            QtCore.QObject.connect(self.classprofile.ok, QtCore.SIGNAL("clicked()"), self.open_classprofile)
+            QtCore.QObject.connect(self.classprofile.ok, QtCore.SIGNAL("clicked()"),self.newf)
+            QtCore.QObject.connect(self.classprofile.pri, QtCore.SIGNAL("clicked()"),lambda: self.write_txtfile(queslist))
+            QtCore.QObject.connect(self.classprofile.ok, QtCore.SIGNAL("clicked()"),self.open_classprofile)
             QtCore.QObject.connect(self.classprofile.back, QtCore.SIGNAL("clicked()"), self.open_detail)
 
         def open_student(self):
             self.student.setupUi(self)
-
             QtCore.QObject.connect(self.student.send, QtCore.SIGNAL("clicked()"), self.open_student)
             QtCore.QObject.connect(self.student.back, QtCore.SIGNAL("clicked()"), self.open_detail)
 
-
         def open_questionstudent(self):
-            self.questionstudent.setupUi(self)
+            self.questionstudent.setupUi(self,self.a)
 
             QtCore.QObject.connect(self.questionstudent.back, QtCore.SIGNAL("clicked()"), self.open_detail)
 

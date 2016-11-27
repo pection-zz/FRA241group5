@@ -52,7 +52,6 @@ class QUESTIONSTUDENT(object):
     #print('%d' % (dataquestion[0][1]))
     #print('%d' % (dataquestion[2][1]))
 
-
     def setupUi(self, QuestionFormStudent_2,id):
         QuestionFormStudent_2.setObjectName(_fromUtf8("QuestionFormStudent_2"))
         QuestionFormStudent_2.setFixedSize(240,400)#240,400
