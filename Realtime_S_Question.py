@@ -23,13 +23,19 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
+
+
 class Ui_MainWindowVote(object):
     ques_table = 0
-    ClassID = 241001
+    ClassID = 241
     StuID = 58340500051
     Click_table = 0
     lastdatetime = ''
     seen = []
+
+    def __init__(self,Username = None,Cls=None):
+        self.StuID = Username
+        self.ClassID = Cls
 
     def setupUi(self, MainWindow,alis):
 
@@ -47,6 +53,7 @@ class Ui_MainWindowVote(object):
         #alis = self.ques_table.SQL("select `Question ID` FROM `Question Table`;")
         self.textEdit.setGeometry(QtCore.QRect(40, 40, 250, 30))
         self.textEdit.setObjectName(_fromUtf8("textEdit"))
+
         try:
             self.textEdit.setText(alis[0][1])
         except:

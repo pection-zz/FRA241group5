@@ -10,22 +10,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtGui import QDialog
 from PyQt4.QtCore import SIGNAL
 import time
-import MySQLdb
 from Realtime_Server import Databaze
-
-def callQuestion(d="",sid=""):#d is date like "2016-10-2" sid "241001"
-    mydb = MySQLdb.connect(host='10.61.3.223',port=3306,user='2016FRA241G5',passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5')
-
-    cur = mydb.cursor()
-    call = "SELECT `Question`,`Vote`,`Seen` FROM `Question Table` WHERE TIME>='2016-11-08 00:00:00' AND TIME<='2016-11-08 23:59:59'"
-    call=call.replace('2016-11-08',d)
-    call=call.replace('241001',sid)
-    cur.execute(call)
-
-    data = cur.fetchall()
-
-    mydb.close()
-    return data
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -44,13 +29,14 @@ except AttributeError:
 class Ui_MainWindowQuestion(QDialog):
     textEdit = 0
     ClassID = 241001
-    StuID = 58340500051
+    StuID = 58340500053
 
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow,Username = None,Cls=None):
+        self.StuID = Username
+        self.ClassID = Cls
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setFixedSize(300, 200)
-        self.ques_table = Databaze(server='10.61.3.223',username='2016FRA241G5',password='SzTGde9E9AxVaNXA',database='2016FRA241G5',use_unicode=True)
-
+        self.ques_table = Databaze(server='10.61.3.223',username='2016FRA241G5',password='SzTGde9E9AxVaNXA',database='2016FRA241G5',use_unicode=True,charset='utf8')
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.bg = QtGui.QLabel(self.centralwidget)
@@ -82,10 +68,6 @@ class Ui_MainWindowQuestion(QDialog):
     def button_click(self):
 
         texy = unicode(self.textEdit.text()).encode('utf-8')
-        f = open("test.txt",'w')
-        f.write(texy)
-        f.close()
-        print texy
         click_id = self.ques_table.SELECT_MAX(table="Question Table",column="Question ID")[0][0]
         datetime = time.asctime( time.localtime(time.time())) #Tue Nov 08 12:41:18 2016
         datetime = datetime[20:24]+"-"+str(self.ques_table.monthToNum(datetime[4:7]))+"-"+datetime[8:10]+" "+datetime[11:19]

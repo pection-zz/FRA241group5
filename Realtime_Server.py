@@ -16,7 +16,7 @@ class Databaze:
         SQL = "SELECT " #SQL store SQL command.
         if different: # check if you want to select the difference.
             SQL += "DISTINCT "
-        SQL += select+" "
+        SQL += "`"+select+"` "
         SQL += "FROM `"+table+ "` "
         if column != '': #check if you have condition.
             if type(IS) is tuple: # for multiple.
