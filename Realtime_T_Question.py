@@ -8,6 +8,9 @@
 
 from PyQt4 import QtCore, QtGui
 import MySQLdb
+import time
+from Realtime_Server import Databaze
+
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -26,25 +29,37 @@ except AttributeError:
 
 
 class QUESTIONSTUDENT(object):
+
+    dataquestion=''
     def __init__(self):
-        self.allQuestion_vote()
-    def allQuestion_vote(self):
+        pass
+
+
+    def allQuestion_vote(self,sid = 241,date = None):
         mydb = MySQLdb.connect(host='10.61.3.223', port=3306, user='2016FRA241G5', passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5', charset='utf8')
         cur = mydb.cursor()
-        call = "SELECT `Question`,`Vote` FROM `Question Table` "
+        call = "SELECT `Question`,`Vote`,`Question ID` FROM `Question Table` WHERE (`Class ID` =" + str(sid)+")and (TIME>='"+str(date)+" 00:00:00' AND TIME<='"+str(date)+" 23:59:59') and (`Seen` = 0) ORDER BY `Vote` "
+
         cur.execute(call)
         data = cur.fetchall()
         mydb.close()
+        self.ques_table = Databaze(server='10.61.3.223',username='2016FRA241G5',password='SzTGde9E9AxVaNXA',database='2016FRA241G5',use_unicode=True,charset='utf8')
+        for i in range(0,len(data)):
+            self.ques_table.CHANGE(table='Question Table',where=["Question ID",data[i][2]],column=["Seen"],to=[1])
 
         return data
-        return ID
-    dataquestion=allQuestion_vote(object)
+
     #print('%d' % (dataquestion[0][1]))
     #print('%d' % (dataquestion[2][1]))
 
-    def setupUi(self, QuestionFormStudent_2,):
+
+    def setupUi(self, QuestionFormStudent_2,id):
         QuestionFormStudent_2.setObjectName(_fromUtf8("QuestionFormStudent_2"))
         QuestionFormStudent_2.setFixedSize(240,400)#240,400
+        datetime = time.asctime( time.localtime(time.time())) #Tue Nov 08 12:41:18 2016
+        datetime = datetime[20:24]+"-"+str(self.monthToNum(datetime[4:7]))+"-"+datetime[8:10]+" "+datetime[11:19]
+        self.dataquestion = self.allQuestion_vote(date="2016-11-22",sid=id)
+        print self.dataquestion
         self.centralwidget = QtGui.QWidget(QuestionFormStudent_2)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
 
@@ -122,7 +137,7 @@ class QUESTIONSTUDENT(object):
         self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
         try:
-            self.lineEdit.setText(self.dataquestion[0][0]+'                                vode  %d'% (self.dataquestion[2][1])) #ขนาดข้อความที่รับมาอยู่ข่อง 1
+            self.lineEdit.setText(self.dataquestion[0][0]+'                                vode  %d'% (self.dataquestion[0][1])) #ขนาดข้อความที่รับมาอยู่ข่อง 1
         except:
             pass
 
@@ -131,7 +146,7 @@ class QUESTIONSTUDENT(object):
         self.lineEdit2.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit2.setText(_translate("QuestionFormStudent_2", str(self.Que2), None))
         try:
-            self.lineEdit2.setText(self.dataquestion[1][0]+'                                   vode  %d'% (self.dataquestion[2][1])) #ขนาดข้อความที่รับมาอยู่ข่อง2
+            self.lineEdit2.setText(self.dataquestion[1][0]+'                                   vode  %d'% (self.dataquestion[1][1])) #ขนาดข้อความที่รับมาอยู่ข่อง2
         except:
             pass
         self.lineEdit3 = QtGui.QLabel(self.centralwidget)#self.lineEdit3 = QtGui.QLineEdit(self.centralwidget)
@@ -139,7 +154,7 @@ class QUESTIONSTUDENT(object):
         self.lineEdit3.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
         try:
-            self.lineEdit3.setText(self.dataquestion[2][0]+'                                       vode  %d'% (self.dataquestion[0][1])) #ขนาดข้อความที่รับมาอยู่ข่อง3
+            self.lineEdit3.setText(self.dataquestion[2][0]+'                                       vode  %d'% (self.dataquestion[2][1])) #ขนาดข้อความที่รับมาอยู่ข่อง3
         except:
             pass
         self.lineEdit4 = QtGui.QLabel(self.centralwidget)#self.lineEdit4 = QtGui.QLineEdit(self.centralwidget)
@@ -181,6 +196,14 @@ class QUESTIONSTUDENT(object):
 
 
 
+    def monthToNum(self,shortMonth):
+
+        return{'Jan' : 1,'Feb' : 2,'Mar' : 3,'Apr' : 4,'May' : 5,'Jun' : 6, 'Jul' : 7,'Aug' : 8,'Sep' : 9, 'Oct' : 10,'Nov' : 11,'Dec' : 12}[shortMonth]
+
+
+
+
+
     def retranslateUi(self, QuestionFormStudent_2):
         QuestionFormStudent_2.setWindowTitle(_translate("QuestionFormStudent_2", "MainWindow", None))
         #self.QuestionFormStudent.setStyleSheet("background-color: white; color: red;font-size: 15pt")#สีแดง,ตัวหนังสือ15
@@ -215,8 +238,5 @@ if __name__ == "__main__":
     ui.setupUi(QuestionFormStudent_2)
     QuestionFormStudent_2.show()
     sys.exit(app.exec_())
-
-
-
 
 
