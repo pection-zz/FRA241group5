@@ -170,6 +170,7 @@ class Questionwindow(QtGui.QMainWindow,Ui_MainWindowQuestion):
 
 
 def login(Username=None,Subject=None):
+
     Date = str(time.asctime(time.localtime(time.time())))
     Day = Date[:3]
     Time = Date[11:13]
@@ -190,6 +191,7 @@ def login(Username=None,Subject=None):
         search = 1
     for e in lis:
         if e[1] == search:
+
             return e[0]
     else:
         return None
@@ -198,7 +200,10 @@ def login(Username=None,Subject=None):
 if __name__ == "__main__":
     US = 58340500051
     if US is not None:
-        cls = login(Username = US)[3:]
+        try:
+            cls = login(Username = US)[3:]
+        except:
+            cls = 100
         if cls != None:
             app = QtGui.QApplication(sys.argv)
             MainWindow = HumanoidMainWindow(Username = US,Cls=cls)
