@@ -8,6 +8,7 @@
 
 from PyQt4 import QtCore, QtGui
 import MySQLdb
+from Realtime_Server import Databaze_2
 import time
 from Realtime_Server import Databaze
 
@@ -35,19 +36,7 @@ class QUESTIONSTUDENT(object):
         pass
 
 
-    def allQuestion_vote(self,sid = 241,date = None):
-        mydb = MySQLdb.connect(host='10.61.3.223', port=3306, user='2016FRA241G5', passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5', charset='utf8')
-        cur = mydb.cursor()
-        call = "SELECT `Question`,`Vote`,`Question ID` FROM `Question Table` WHERE (`Class ID` =" + str(sid)+")and (TIME>='"+str(date)+" 00:00:00' AND TIME<='"+str(date)+" 23:59:59') and (`Seen` = 0) ORDER BY `Vote` "
 
-        cur.execute(call)
-        data = cur.fetchall()
-        mydb.close()
-        self.ques_table = Databaze(server='10.61.3.223',username='2016FRA241G5',password='SzTGde9E9AxVaNXA',database='2016FRA241G5',use_unicode=True,charset='utf8')
-        for i in range(0,len(data)):
-            self.ques_table.CHANGE(table='Question Table',where=["Question ID",data[i][2]],column=["Seen"],to=[1])
-
-        return data
 
     #print('%d' % (dataquestion[0][1]))
     #print('%d' % (dataquestion[2][1]))
@@ -57,7 +46,8 @@ class QUESTIONSTUDENT(object):
         QuestionFormStudent_2.setFixedSize(240,400)#240,400
         datetime = time.asctime( time.localtime(time.time())) #Tue Nov 08 12:41:18 2016
         datetime = datetime[20:24]+"-"+str(self.monthToNum(datetime[4:7]))+"-"+datetime[8:10]+" "+datetime[11:19]
-        self.dataquestion = self.allQuestion_vote(date="2016-11-22",sid=id)
+        dbdb = Databaze_2()
+        self.dataquestion = dbdb.allQuestion_vote(date="2016-11-22",sid=id)
         print self.dataquestion
         self.centralwidget = QtGui.QWidget(QuestionFormStudent_2)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))

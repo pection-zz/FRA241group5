@@ -8,6 +8,7 @@
 
 from PyQt4 import QtCore, QtGui
 import MySQLdb
+from Realtime_Server import Databaze_2
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -27,35 +28,15 @@ except AttributeError:
 
 class STUDENT(object):
 
-    def callSProfile(self,Sid=0):# somethinglike "58340500075"
-        mydb = MySQLdb.connect(host='10.61.3.223', user='2016FRA241G5', passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5',use_unicode=True,charset='utf8')
-        Sid=str(Sid)
-        cur = mydb.cursor()
-        call = "SELECT `Status` FROM `Click Table` WHERE `Student ID`='58340500075'"
-        call=call.replace("58340500075",Sid)
-        cur.execute(call)
 
-        data = cur.fetchall()
-        lendata = len(data)
-
-        call = "SELECT `Question` FROM `Question Table` WHERE `Student ID`='58340500075'"
-        call=call.replace("58340500075", Sid)
-        cur.execute(call)
-
-        data0 = cur.fetchall()
-        lendata0 = len(data0)
-
-        returnthing = (int(Sid),lendata,lendata0,data0)#id,clicklenght,questionlenght,question
-
-        mydb.close()
-        return returnthing
 
     classID = 241001
     stuID = 58340500001
 
     def Update(self,stu):
         self.stuID = long(stu)
-        Databaselist = self.callSProfile(Sid=str(stu))
+        dbdb = Databaze_2()
+        Databaselist = dbdb.callSProfile(Sid=str(stu))
         Qall = ""
         ID=str(Databaselist[0])
         Ques=str(Databaselist[1])

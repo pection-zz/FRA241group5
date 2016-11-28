@@ -9,6 +9,7 @@
 
 from PyQt4 import QtCore, QtGui
 import matplotlib
+from Realtime_Server import Databaze_2
 import matplotlib.pyplot as plt
 import matplotlib.pyplot
 import random
@@ -31,154 +32,9 @@ except AttributeError:
 class Classprofile(object):
     sub = ""
 
-    def allQuestion(self,class_code,date,zeroorone):
-        mydb = MySQLdb.connect(host='10.61.3.223', port=3306, user='2016FRA241G5', passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5',use_unicode=True, charset='utf8')
-        cur = mydb.cursor()
-
-        call = "SELECT `Question`,`Student ID`,`Time` FROM `Question Table` WHERE `Class ID` = " + str(class_code)
-
-        cur.execute(call)
-        data = cur.fetchall()
-        mydb.close()
-        stre = ""
-        newdata = []
-        check = False
-        for e in data:
-            if (str(date) == str(e[2])[0:10]) :
-                if zeroorone:
-
-                    if int(str(e[2])[11:13]) > 13:
-                        check = True
-                else:
-
-                    if int(str(e[2])[11:13]) < 13:
-                        check = True
-            if check:
-                newdata.append((e[0],e[1]))
-        for elem in newdata:
-            stre += elem[0]+ " from "+str(elem[1]) + "\n"
-        return stre
-
-    def Oneshot(self,t="",sid="",time=15.00):
-        mydb = MySQLdb.connect(host='10.61.3.223',port=3306,user='2016FRA241G5',passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5')
-        cur = mydb.cursor()
-        ns1=0#overall status 1
-        ns0=0#overall status 0
-        pers=0#% (ns1*100)/(ns1+ns2)
-        data1 = ()#data return
-        data2 = ()#data return test
-
-        if True:
-            if True:
-                call = "SELECT * FROM `Click Table` WHERE (TIME>='"+str(t)+" "+str(time-0.05).replace(".",":")+":00"+"' AND TIME<='"+str(t)+" "+ str(time).replace(".",":")+":00"+"') AND `Class ID`='"+str(sid)+"' AND `Status` = 1"#call status 1 order
 
 
-                cur.execute(call)#call status 1
-                data = cur.fetchall() # Sometype of file to tuple
-                ns1 = (len(data))  # number status1
 
-                data1 = data1 + data #add data
-                call = call.replace('`Status` = 1','`Status` = 0')#call status 0 order
-                cur.execute(call)#call status 0
-                data = cur.fetchall()  # Sometype of file to tuple
-                ns0 = (len(data))  # number status0
-
-                data1 = data1 + data # add data
-                #print data1
-
-                if True:
-                #if (ns0!=0)|(ns1!=0):
-                    if (ns0 + ns1) != 0:
-                        pers = int((ns1 * 100) // (ns0 + ns1))
-                    else:
-                        pers = 50
-                    datasent = (ns1, ns0, pers)
-                    data2 = data2 + datasent  # number status1,number status2,persentage,time1,time2
-                #print call + "calltest2" test
-        mydb.close()
-        if data2==():
-            return None
-        else:
-            return data2
-
-    def callClick(self,t="",sid="",hr=16):#exampleinput callClick("2016-11-8","241")
-
-        mydb = MySQLdb.connect(host='10.61.3.223',port=3306,user='2016FRA241G5',passwd='SzTGde9E9AxVaNXA',db='2016FRA241G5')
-        cur = mydb.cursor()
-        ns1=0#overall status 1
-        ns0=0#overall status 0
-        pers=0#% (ns1*100)/(ns1+ns2)
-        data1 = ()#data return
-        data2 = ()#data return test
-        timesort = []
-        if hr == 0:
-            hr = 2
-        elif hr == 22:
-            hr = 21
-        for i in range((hr-1), (hr+2)):#create time(text) for sort (every 1 min for 24 hour)
-            for n in range(0, 60, 1):
-                if i < 10:
-                    if n >= 10:
-                        re = "0" + (str)(i) + "." + (str)(n)
-                    else:
-                        re = "0" + (str)(i) + "." + "0" + (str)(n)
-                if i >= 10:
-                    if n >= 10:
-                        re = (str)(i) + "." + (str)(n)
-                    else:
-                        re = (str)(i) + "." + "0" + (str)(n)
-                timesort.append(re)
-
-        for i in range(0, (len(timesort)-1)):#call every 1 min
-            print int(i*100.0/len(timesort)) , "Percent"
-            '''if i == ((len)(timesort)-1):
-                call = "SELECT * FROM `Click Table` WHERE (TIME>='"+str(t)+" 23:55:00' AND TIME<='"+str(t)+"23:59:59') AND `Class ID`='241001' AND `Status` = 1"#call status 1 order
-                call = call.replace('2016-11-9', t)
-                call = call.replace('241001', sid)
-                call = call.replace('0:0:0',"23:55:00")
-                call = call.replace('0:5:0',"23:59:59")
-                cur.execute(call)#call status 1
-                data = cur.fetchall() # Sometype of file to tuple
-                data1 = data1 + data #add data
-                call = call.replace('`Status` = 1','`Status` = 0')#call status 0 order
-                cur.execute(call)#call status 0
-                data = cur.fetchall()  # Sometype of file to tuple
-
-                data1 = data1 + data  # add data
-                #print call + "calltest1" test
-            else:'''
-            if True:
-
-                call = "SELECT * FROM `Click Table` WHERE (TIME>='"+str(t)+" "+str(timesort[i]).replace(".",":")+":00"+"' AND TIME<='"+str(t)+" "+ str(timesort[i+1]).replace(".",":")+":00"+"') AND `Class ID`='"+str(sid)+"' AND `Status` = 1"#call status 1 order
-                #print call
-
-                cur.execute(call)#call status 1
-                data = cur.fetchall() # Sometype of file to tuple
-                ns1 = (len(data))  # number status1
-
-                data1 = data1 + data #add data
-                call = call.replace('`Status` = 1','`Status` = 0')#call status 0 order
-                cur.execute(call)#call status 0
-                data = cur.fetchall()  # Sometype of file to tuple
-                ns0 = (len(data))  # number status0
-
-                data1 = data1 + data # add data
-                #print data1
-
-                if True:
-                #if (ns0!=0)|(ns1!=0):
-                    if (ns0 + ns1) != 0:
-                        pers = int((ns1 * 100) // (ns0 + ns1))
-                    else:
-                        pers = 50
-                    datasent = ( (ns1, ns0, pers, timesort[i]),)
-                    data2 = data2 + datasent  # number status1,number status2,persentage,time1,time2
-                #print call + "calltest2" test
-        mydb.close()
-        if data2==():
-            return None
-        else:
-            return data2
 
     def monthToNum(self,shortMonth):
 
@@ -275,9 +131,10 @@ class Classprofile(object):
         qq = lis[2]
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        l = self.callClick(t=ret,sid=self.sub[3:],hr=int(tim[:2]))
+        newdatabase = Databaze_2()
+        l = newdatabase.callClick(t=ret,sid=self.sub[3:],hr=int(tim[:2]))
 
-        l2 = self.Oneshot(t=ret,sid=self.sub[3:],time=float(str(tim)[:5].replace(":",".")))
+        l2 = newdatabase.Oneshot(t=ret,sid=self.sub[3:],time=float(str(tim)[:5].replace(":",".")))
         self.progressBar.setValue(l2[2])
         self.label_3.setText(_translate("MainWindow", "amount "+str(l2[0])+" / "+str(int(l2[0]+l2[1])), None))
         lis = [[],[]]
@@ -306,7 +163,8 @@ class Classprofile(object):
             timee = 1
         else:
             timee = 0
-        ques = self.allQuestion(self.sub[3:],date,timee)
+        newdatabase = Databaze_2()
+        ques = newdatabase.allQuestion(self.sub[3:],date,timee)
         self.lineEdit.setText(_translate("MainWindow", ques, None))
         return (str(self.dateEdit.date().toPyDate()),str(self.timeEdit.time().toPyTime()),ques)
 
