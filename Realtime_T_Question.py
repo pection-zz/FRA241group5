@@ -37,7 +37,14 @@ class QUESTIONSTUDENT(object):
 
 
 
-
+    def getvalue(self,name):
+        mikefile =" "
+        leng=len(name)
+        value=15-leng
+        for i in range(0,value):
+            mikefile = mikefile +" "
+        name=name+mikefile
+        return name
     #print('%d' % (dataquestion[0][1]))
     #print('%d' % (dataquestion[2][1]))
 
@@ -47,7 +54,7 @@ class QUESTIONSTUDENT(object):
         datetime = time.asctime( time.localtime(time.time())) #Tue Nov 08 12:41:18 2016
         datetime = datetime[20:24]+"-"+str(self.monthToNum(datetime[4:7]))+"-"+datetime[8:10]+" "+datetime[11:19]
         dbdb = Databaze_2()
-        self.dataquestion = dbdb.allQuestion_vote(date="2016-11-22",sid=id)
+        self.dataquestion = dbdb.allQuestion_vote(date=datetime[:10],sid=id)
         print self.dataquestion
         self.centralwidget = QtGui.QWidget(QuestionFormStudent_2)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
@@ -125,8 +132,15 @@ class QUESTIONSTUDENT(object):
         self.lineEdit.setGeometry(QtCore.QRect(30, 70, 200, 40))#20
         self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
+        print self.dataquestion
         try:
-            self.lineEdit.setText(self.dataquestion[0][0]+'                                vode  %d'% (self.dataquestion[0][1])) #ขนาดข้อความที่รับมาอยู่ข่อง 1
+            aaaii=self.dataquestion[0][0]
+            if(len(aaaii)<15):
+                mike =self.getvalue(aaaii)
+            else:
+                mike=aaaii[0:15]
+            print mike , "hello"
+            self.lineEdit.setText(mike+'|vote  %d|'% (self.dataquestion[0][1])) #ขนาดข้อความที่รับมาอยู่ข่อง 1
         except:
             pass
 
@@ -135,7 +149,12 @@ class QUESTIONSTUDENT(object):
         self.lineEdit2.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit2.setText(_translate("QuestionFormStudent_2", str(self.Que2), None))
         try:
-            self.lineEdit2.setText(self.dataquestion[1][0]+'                                   vode  %d'% (self.dataquestion[1][1])) #ขนาดข้อความที่รับมาอยู่ข่อง2
+            b=self.dataquestion[1][0]
+            if(len(b)<15):
+                mike2 =self.getvalue(b)
+            else:
+                mike2=aaaii[0:15]
+            self.lineEdit2.setText(mike2+'|vote  %d|'% (self.dataquestion[1][1])) #ขนาดข้อความที่รับมาอยู่ข่อง2
         except:
             pass
         self.lineEdit3 = QtGui.QLabel(self.centralwidget)#self.lineEdit3 = QtGui.QLineEdit(self.centralwidget)
@@ -143,7 +162,12 @@ class QUESTIONSTUDENT(object):
         self.lineEdit3.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
         try:
-            self.lineEdit3.setText(self.dataquestion[2][0]+'                                       vode  %d'% (self.dataquestion[2][1])) #ขนาดข้อความที่รับมาอยู่ข่อง3
+            c=self.dataquestion[2][0]
+            if(len(c)<15):
+                mike3 =self.getvalue(c)
+            else:
+                mike3 = c[0:15]
+                self.lineEdit3.setText(mike3+'|vote  %d|'% (self.dataquestion[2][1])) #ขนาดข้อความที่รับมาอยู่ข่อง3
         except:
             pass
         self.lineEdit4 = QtGui.QLabel(self.centralwidget)#self.lineEdit4 = QtGui.QLineEdit(self.centralwidget)
@@ -151,7 +175,13 @@ class QUESTIONSTUDENT(object):
         self.lineEdit4.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
         try:
-            self.lineEdit4.setText(self.dataquestion[3][0]+'                                 vode  %d'% (self.dataquestion[3][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
+            d=self.dataquestion[3][0]
+            if(len(d)<15):
+                mike4 =self.getvalue(d)
+            else:
+                mike4=d[0:15]
+
+            self.lineEdit4.setText(mike4+'|vote  %d|'% (self.dataquestion[3][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
         except:
             pass
         self.lineEdit5 = QtGui.QLabel(self.centralwidget)##self.lineEdit5 = QtGui.QLineEdit(self.centralwidget)
@@ -159,7 +189,13 @@ class QUESTIONSTUDENT(object):
         self.lineEdit5.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
         try:
-            self.lineEdit5.setText(self.dataquestion[4][0]+'                                 vode  %d'% (self.dataquestion[4][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
+            e=self.dataquestion[4][0]
+            if(len(e)<15):
+                mike5 =self.getvalue(e)
+            else:
+                mike5=e[0:15]
+
+            self.lineEdit5.setText(mike5+'|vote  %d|'% (self.dataquestion[4][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
         except:
             pass
         self.lineEdit6 = QtGui.QLabel(self.centralwidget)#self.lineEdit6 = QtGui.QLineEdit(self.centralwidget)
@@ -167,7 +203,13 @@ class QUESTIONSTUDENT(object):
         self.lineEdit6.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
         try:
-            self.lineEdit6.setText(self.dataquestion[5][0]+'                                vode  %d'% (self.dataquestion[5][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
+            f=self.dataquestion[5][0]
+            if(len(f)<15):
+                mike6 =self.getvalue(f)
+            else:
+                mike6=f[0:15]
+
+                self.lineEdit6.setText(mike6+'|vote  %d|'% (self.dataquestion[5][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
         except:
             pass
         self.lineEdit7 = QtGui.QLabel(self.centralwidget)#self.lineEdit6 = QtGui.QLineEdit(self.centralwidget)
@@ -175,7 +217,12 @@ class QUESTIONSTUDENT(object):
         self.lineEdit7.setObjectName(_fromUtf8("lineEdit"))
         # self.lineEdit.setText(_translate("QuestionFormStudent_2", str(self.Que), None))
         try:
-            self.lineEdit7.setText(self.dataquestion[6][0]+'                                     vode  %d'% (self.dataquestion[6][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
+            g=self.dataquestion[6][0]
+            if(len(g)<15):
+                mike7 =self.getvalue(g)
+            else:
+                mike7=g[0:15]
+            self.lineEdit7.setText(mike7+'|vote  %d|'% (self.dataquestion[6][1])) #ขนาดข้อความที่รับมาอยู่ข่อง4
         except:
             pass
 
